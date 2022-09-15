@@ -1,114 +1,5 @@
-# WARNING: This repository is no longer maintained :warning:
 
-> This repository will not be updated. The repository will be kept available in read-only mode. 
-> 
-# Handwritten Korean Character Recognition with TensorFlow and Android
-
-*Read this in other languages: [한국어](README-ko.md),[日本語](README-ja.md).*
-
-Hangul, the Korean alphabet, has 19 consonant and 21 vowel letters.
-Combinations of these letters give a total of 11,172 possible Hangul
-syllables/characters. However, only a small subset of these are typically used.
-
-This code pattern will cover the creation process of an Android application that
-will utilize a TensorFlow model trained to recognize Korean syllables.
-In this application, users will be able to draw a Korean syllable on their
-mobile device, and the application will attempt to infer what the character is by
-using the trained model. Furthermore, users will be able to form words or sentences
-in the application which they can then translate using the
-[Watson Language Translator](https://www.ibm.com/watson/services/language-translator/)
-service.
-
-![Demo App](doc/source/images/hangul_tensordroid_demo1.gif "Android application")
-
-The following steps will be covered:
-1. Generating image data using free Hangul-supported fonts found online and
-   elastic distortion.
-2. Converting images to TFRecords format to be used for input and training of
-   the model.
-3. Training and saving the model.
-4. Using the saved model in a simple Android application.
-5. Connecting the Watson Language Translator service to translate the characters.
-
-![architecture](doc/source/images/architecture.png)
-
-## Flow
-
-1. The user downloads several Korean fonts to use for data generation.
-2. The images generated from the fonts are fed into a TensorFlow model for training.
-3. The user draws a Korean character on their Android device.
-4. The drawn character is recognized using the previously trained TensorFlow model and the
-   Android TensorFlow Inference Interface.
-5. A string of the classified Korean characters is sent to the Watson Language Translator
-   service to retrieve an English translation.
-
-## Included Components
-
-* [Watson Language Translator](https://www.ibm.com/watson/services/language-translator/):
-An IBM Cloud service that converts text input in one language into a destination language
-for the end user using background from domain-specific models.
-* [TensorFlow](https://www.tensorflow.org/): An open-source software library for
-Machine Intelligence.
-* [Android](https://developer.android.com/docs/): An open-source mobile
-operating system based on the Linux kernel.
-
-## Featured Technologies
-
-* [Artificial Intelligence](https://developer.ibm.com/technologies/artificial-intelligence/):
-  Cognitive technologies that can understand, reason, learn, and interact like
-  humans.
-* [Mobile](https://developer.ibm.com/technologies/mobile/): An environment to
-  develop apps and enable engagements that are designed specifically for mobile
-  users.
-
-# Watch the Video
-
-[![](https://img.youtube.com/vi/iefYaCOz00s/0.jpg)](https://www.youtube.com/watch?v=iefYaCOz00s)
-
-# Steps
-
-## Run locally
-
-Follow these steps to setup and run this code pattern. The steps are
-described in detail below.
-
-1. [Clone the repo](#1-clone-the-repo)
-2. [Install dependencies](#2-install-dependencies)
-3. [Generate Image Data](#3-generate-image-data)
-4. [Convert Images to TFRecords](#4-convert-images-to-tfrecords)
-5. [Train the Model](#5-train-the-model)
-6. [Try Out the Model](#6-try-out-the-model)
-7. [Create the Android Application](#7-create-the-android-application)
-
-### 1. Clone the repo
-
-Clone the `tensorflow-hangul-recognition` locally. In a terminal, run:
-
-```
-git clone https://github.com/IBM/tensorflow-hangul-recognition
-```
-
-Now go to the cloned repo directory:
-```
-cd tensorflow-hangul-recognition
-```
-
-### 2. Install dependencies
-
-The general recommendation for Python development is to use a virtual environment [(venv)](https://docs.python.org/3/tutorial/venv.html). To install and initialize a virtual environment, use the `venv` module on Python 3 (you install the virtualenv library for Python 2.7):
-
-```bash
-# Create the virtual environment using Python. Use one of the two commands depending on your Python version.
-# Note, it may be named python3 on your system.
-
-$ python -m venv mytestenv       # Python 3.X
-$ virtualenv mytestenv           # Python 2.X
-
-# Now source the virtual environment. Use one of the two commands depending on your OS.
-
-$ source mytestenv/bin/activate  # Mac or Linux
-$ ./mytestenv/Scripts/activate   # Windows PowerShell
-```
+### 1. Install dependencies
 
 Install the Python requirements for this code pattern. Run:
 ```
@@ -121,7 +12,7 @@ install `tensorflow-gpu` instead of `tensorflow`. Details for installation can b
 
 > **TIP** :bulb: To terminate the virtual environment use the `deactivate` command.
 
-### 3. Generate Image Data
+### 2. Generate Image Data
 
 In order to train a decent model, having copious amounts of data is necessary.
 However, getting a large enough dataset of actual handwritten Korean characters
@@ -183,7 +74,7 @@ which will hold all the 64x64 JPEG images. The output directory will also contai
 _labels-map.csv_ file which will map all the image paths to their corresponding
 labels.
 
-### 4. Convert Images to TFRecords
+### 3. Convert Images to TFRecords
 
 The TensorFlow standard input format is
 [TFRecords](https://github.com/tensorflow/docs/tree/master/site/en/api_guides/python#tfrecords_format_details),
@@ -227,7 +118,7 @@ $ ls ./tfrecords-output
 test1.tfrecords    train1.tfrecords    train2.tfrecords    train3.tfrecords
 ```
 
-### 5. Train the Model
+### 4. Train the Model
 
 Now that we have a lot of data, it is time to actually use it. In the root of
 the project is [hangul_model.py](./hangul_model.py). This script will handle
@@ -285,7 +176,7 @@ a [Protocol Buffer](https://en.wikipedia.org/wiki/Protocol_Buffers) file
 which represents a serialized version of our model with all the learned weights
 and biases. This specific one is optimized for inference-only usage.
 
-### 6. Try Out the Model
+### 5. Try Out the Model
 
 Before we jump into making an Android application with our newly saved model,
 let's first try it out. Provided is a [script](./tools/classify-hangul.py) that
@@ -319,19 +210,7 @@ After running the script, you should see the top five predictions and their
 corresponding scores. Hopefully the top prediction matches what your character
 actually is.
 
-**Note**: If running this script on Windows, in order for the Korean characters
-to be displayed on the console, you must first change the active code page to
-support UTF-8. Just run:
-
-```
-chcp 65001
-```
-
-Then you must change the console font to be one that supports Korean text
-(like Batang, Dotum, or Gulim).
-
-
-### 7. Create the Android Application
+### 6. Create the Android Application
 
 With the saved model, a simple Android application can be created that will be
 able to classify handwritten Hangul that a user has drawn. A completed application
@@ -387,18 +266,6 @@ _./hangul-tensordroid/app/src/main/java/ibm/tf/hangul/MainActivity.java_, by
 simply changing the values of the constants `LABEL_FILE` and `MODEL_FILE` located
 at the top of the class.
 
-If you want to enable translation support, you must do the following:
-
-1) Create an IBM Cloud account [here](https://cloud.ibm.com/registration/).
-2) Create the [Watson Language Translator](https://cloud.ibm.com/catalog/services/language-translator)
-   service.
-3) Get Translator service credentials. Credentials should have been automatically
-   created. You can retrieve them by clicking on the **Language Translator** service
-   under the **Services** section of your IBM Cloud dashboard.
-4) Update
-   _[./hangul-tensordroid/app/src/main/res/values/translate_api.xml](./hangul-tensordroid/app/src/main/res/values/translate_api.xml)_
-   with the **apikey** and **url** retrieved in step 3.
-
 #### Run the application
 
 When you are ready to build and run the application, click on the green arrow
@@ -421,20 +288,4 @@ then launch on the device.
 Try drawing in the application to see how well the model recognizes your Hangul
 writing.
 
-# Links
 
-* [Deep MNIST for Experts](https://www.tensorflow.org/tutorials/): Tutorial for creating and training a convolutional neural network to recognize handwritten digits.
-* [TensorFlow Lite](https://www.tensorflow.org/lite/): Information on TensorFlow mobile support on different platforms.
-* [Hangul Syllables](https://en.wikipedia.org/wiki/Hangul_Syllables): List of all Hangul syllables.
-
-# Learn more
-
-* **Artificial Intelligence Code Patterns**: Enjoyed this Code Pattern? Check out our other [AI Code Patterns](https://developer.ibm.com/technologies/artificial-intelligence/).
-* **AI and Data Code Pattern Playlist**: Bookmark our [playlist](https://www.youtube.com/playlist?list=PLzUbsvIyrNfknNewObx5N7uGZ5FKH0Fde) with all of our Code Pattern videos
-* **With Watson**: Want to take your Watson app to the next level? Looking to utilize Watson Brand assets? [Join the With Watson program](https://www.ibm.com/watson/with-watson/) to leverage exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
-
-# License
-
-This code pattern is licensed under the Apache License, Version 2. Separate third-party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1](https://developercertificate.org/) and the [Apache License, Version 2](https://www.apache.org/licenses/LICENSE-2.0.txt).
-
-[Apache License FAQ](https://www.apache.org/foundation/license-faq.html#WhatDoesItMEAN)
