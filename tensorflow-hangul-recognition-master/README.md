@@ -161,10 +161,6 @@ should certainly install the TensorFlow version with GPU support (supported on
 [Ubuntu](https://www.tensorflow.org/install/) and
 [Windows](https://www.tensorflow.org/install/) only).
 
-On my Windows desktop computer with an Nvidia GTX 1080 graphics card, training
-about 320,000 images with the script defaults took just a bit over two hours.
-Training on my MacBook Pro would probably take over 20 times that long.
-
 One alternative is to use a reduced label set (i.e. 256 vs 2350 Hangul
 characters) which can reduce the computational complexity quite a bit.
 
